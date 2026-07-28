@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "users")
 public class User {
@@ -30,14 +30,20 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user",
+    @OneToMany(
+            mappedBy = "user",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true
+    )
+    @JsonIgnore
     private List<Booking> bookings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",
+    @OneToMany(
+            mappedBy = "user",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true
+    )
+    @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
     public User() {

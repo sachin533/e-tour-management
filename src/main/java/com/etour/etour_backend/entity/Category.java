@@ -1,5 +1,6 @@
 package com.etour.etour_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -21,7 +22,11 @@ public class Category {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Tour> tours = new ArrayList<>();
+
+    
+
 
     public Category() {
     }

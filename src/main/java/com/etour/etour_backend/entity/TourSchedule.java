@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tour_schedules")
 public class TourSchedule {
@@ -29,6 +29,7 @@ public class TourSchedule {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<PassengerPrice> passengerPrices = new ArrayList<>();
 
     @OneToMany(
@@ -36,6 +37,7 @@ public class TourSchedule {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Booking> bookings = new ArrayList<>();
 
     public TourSchedule() {

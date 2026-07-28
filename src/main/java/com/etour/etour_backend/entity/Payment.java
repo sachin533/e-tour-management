@@ -5,7 +5,7 @@ import com.etour.etour_backend.enums.PaymentStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -33,6 +33,7 @@ public class Payment {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
+    @JsonIgnoreProperties({"payment","passengers"})
     private Booking booking;
 
     public Payment() {

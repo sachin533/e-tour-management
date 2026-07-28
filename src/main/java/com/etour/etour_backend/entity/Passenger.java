@@ -2,7 +2,7 @@ package com.etour.etour_backend.entity;
 
 import com.etour.etour_backend.enums.PassengerType;
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "passengers")
 public class Passenger {
@@ -23,6 +23,7 @@ public class Passenger {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id", nullable = false)
+    @JsonIgnoreProperties({"passengers","payment"})
     private Booking booking;
 
     public Passenger() {

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tours")
 public class Tour {
@@ -31,6 +31,7 @@ public class Tour {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<TourSchedule> schedules = new ArrayList<>();
 
     @OneToMany(
@@ -38,6 +39,7 @@ public class Tour {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<TourImage> images = new ArrayList<>();
 
     @OneToMany(
@@ -45,6 +47,7 @@ public class Tour {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
     public Tour() {

@@ -1,6 +1,7 @@
 package com.etour.etour_backend.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tour_images")
@@ -15,6 +16,7 @@ public class TourImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tour_id", nullable = false)
+    @JsonIgnoreProperties({"schedules","images","reviews"})
     private Tour tour;
 
     public TourImage() {
