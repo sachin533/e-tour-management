@@ -2,6 +2,7 @@ package com.etour.etour_backend.controller;
 
 import com.etour.etour_backend.entity.Category;
 import com.etour.etour_backend.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,19 +11,35 @@ import java.util.List;
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    private final CategoryService service;
+    @Autowired
+    private CategoryService categoryService;
 
-    public CategoryController(CategoryService service) {
-        this.service = service;
+    @PostMapping
+    public Category saveCategory(@RequestBody Category category) {
+        return categoryService.saveCategory(category);
     }
 
     @GetMapping
     public List<Category> getAllCategories() {
-        return service.getAllCategories();
+        return categoryService.getAllCategories();
     }
 
-    @PostMapping
-    public Category createCategory(@RequestBody Category category) {
-        return service.saveCategory(category);
+    @GetMapping("/{id}")
+    public Category getCategoryById(@PathVariable("id") Long id) {
+        return categoryService.getCategoryById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Category updateCategory(@PathVariable("id") Long id,
+                                   @RequestBody Category category) {
+        return categoryService.updateCategory(id, category);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCategory(@PathVariable("id") Long id) {
+
+        categoryService.deleteCategory(id);
+
+        return "Category deleted successfully.";
     }
 }

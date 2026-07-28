@@ -1,25 +1,17 @@
 package com.etour.etour_backend.service;
 
 import com.etour.etour_backend.entity.Category;
-import com.etour.etour_backend.repository.CategoryRepository;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
-@Service
-public class CategoryService {
+public interface CategoryService {
 
-    private final CategoryRepository repository;
+    Category saveCategory(Category category);
 
-    public CategoryService(CategoryRepository repository) {
-        this.repository = repository;
-    }
+    List<Category> getAllCategories();
 
-    public List<Category> getAllCategories() {
-        return repository.findAll();
-    }
+    Category getCategoryById(Long id);
 
-    public Category saveCategory(Category category) {
-        return repository.save(category);
-    }
+    Category updateCategory(Long id, Category category);
+
+    void deleteCategory(Long id);
 }

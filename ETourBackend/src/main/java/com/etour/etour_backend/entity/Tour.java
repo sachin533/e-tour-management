@@ -2,6 +2,9 @@ package com.etour.etour_backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tours")
 public class Tour {
@@ -19,23 +22,62 @@ public class Tour {
     @Column(nullable = false)
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToMany(
+            mappedBy = "tour",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<TourSchedule> schedules = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "tour",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<TourImage> images = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "tour",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
 
     public Tour() {
     }
 
-    public Tour(Long id, String tourName, String destination, Double price, Category category) {
+    public Tour(Long id,
+                String tourName,
+                String destination,
+                Double price,
+                Category category,
+                List<TourSchedule> schedules,
+                List<TourImage> images,
+                List<Review> reviews) {
+
         this.id = id;
         this.tourName = tourName;
         this.destination = destination;
         this.price = price;
         this.category = category;
+        this.schedules = schedules;
+        this.images = images;
+        this.reviews = reviews;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTourName() {
@@ -68,5 +110,29 @@ public class Tour {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<TourSchedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<TourSchedule> schedules) {
+        this.schedules = schedules;
+    }
+
+    public List<TourImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<TourImage> images) {
+        this.images = images;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

@@ -1,25 +1,18 @@
 package com.etour.etour_backend.service;
 
 import com.etour.etour_backend.entity.Tour;
-import com.etour.etour_backend.repository.TourRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class TourService {
+public interface TourService {
 
-    private final TourRepository repository;
+    Tour saveTour(Tour tour);
 
-    public TourService(TourRepository repository) {
-        this.repository = repository;
-    }
+    List<Tour> getAllTours();
 
-    public List<Tour> getAllTours() {
-        return repository.findAll();
-    }
+    Tour getTourById(Long id);
 
-    public Tour saveTour(Tour tour) {
-        return repository.save(tour);
-    }
+    Tour updateTour(Long id, Tour tour);
+
+    void deleteTour(Long id);
 }
