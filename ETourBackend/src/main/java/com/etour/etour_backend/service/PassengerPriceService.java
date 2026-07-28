@@ -1,25 +1,20 @@
 package com.etour.etour_backend.service;
 
 import com.etour.etour_backend.entity.PassengerPrice;
-import com.etour.etour_backend.repository.PassengerPriceRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class PassengerPriceService {
+public interface PassengerPriceService {
 
-    private final PassengerPriceRepository repository;
+    PassengerPrice savePassengerPrice(PassengerPrice passengerPrice);
 
-    public PassengerPriceService(PassengerPriceRepository repository) {
-        this.repository = repository;
-    }
+    List<PassengerPrice> getAllPassengerPrices();
 
-    public List<PassengerPrice> getAllPassengerPrices() {
-        return repository.findAll();
-    }
+    PassengerPrice getPassengerPriceById(Long id);
 
-    public PassengerPrice savePassengerPrice(PassengerPrice passengerPrice) {
-        return repository.save(passengerPrice);
-    }
+    PassengerPrice updatePassengerPrice(Long id, PassengerPrice passengerPrice);
+
+    void deletePassengerPrice(Long id);
+
+    List<PassengerPrice> getPassengerPricesByTourScheduleId(Long tourScheduleId);
 }
