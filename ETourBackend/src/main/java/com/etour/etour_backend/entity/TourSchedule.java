@@ -1,8 +1,11 @@
 package com.etour.etour_backend.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tour_schedules")
 public class TourSchedule {
@@ -13,24 +16,55 @@ public class TourSchedule {
 
     private LocalDate departureDate;
 
+    private LocalDate arrivalDate;
+
     private Integer availableSeats;
 
-    @ManyToOne
-    @JoinColumn(name = "tour_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
+
+    @OneToMany(
+            mappedBy = "tourSchedule",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<PassengerPrice> passengerPrices = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "tourSchedule",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<Booking> bookings = new ArrayList<>();
 
     public TourSchedule() {
     }
 
-    public TourSchedule(Long id, LocalDate departureDate, Integer availableSeats, Tour tour) {
+    public TourSchedule(Long id,
+                        LocalDate departureDate,
+                        LocalDate arrivalDate,
+                        Integer availableSeats,
+                        Tour tour,
+                        List<PassengerPrice> passengerPrices,
+                        List<Booking> bookings) {
         this.id = id;
         this.departureDate = departureDate;
+        this.arrivalDate = arrivalDate;
         this.availableSeats = availableSeats;
         this.tour = tour;
+        this.passengerPrices = passengerPrices;
+        this.bookings = bookings;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getDepartureDate() {
@@ -39,6 +73,14 @@ public class TourSchedule {
 
     public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
     public Integer getAvailableSeats() {
@@ -55,5 +97,21 @@ public class TourSchedule {
 
     public void setTour(Tour tour) {
         this.tour = tour;
+    }
+
+    public List<PassengerPrice> getPassengerPrices() {
+        return passengerPrices;
+    }
+
+    public void setPassengerPrices(List<PassengerPrice> passengerPrices) {
+        this.passengerPrices = passengerPrices;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

@@ -10,19 +10,45 @@ import java.util.List;
 @RequestMapping("/api/passenger-prices")
 public class PassengerPriceController {
 
-    private final PassengerPriceService service;
+    private final PassengerPriceService passengerPriceService;
 
-    public PassengerPriceController(PassengerPriceService service) {
-        this.service = service;
+    public PassengerPriceController(PassengerPriceService passengerPriceService) {
+        this.passengerPriceService = passengerPriceService;
+    }
+
+    @PostMapping
+    public PassengerPrice savePassengerPrice(@RequestBody PassengerPrice passengerPrice) {
+        return passengerPriceService.savePassengerPrice(passengerPrice);
     }
 
     @GetMapping
     public List<PassengerPrice> getAllPassengerPrices() {
-        return service.getAllPassengerPrices();
+        return passengerPriceService.getAllPassengerPrices();
     }
 
-    @PostMapping
-    public PassengerPrice createPassengerPrice(@RequestBody PassengerPrice passengerPrice) {
-        return service.savePassengerPrice(passengerPrice);
+    @GetMapping("/{id}")
+    public PassengerPrice getPassengerPriceById(@PathVariable("id") Long id) {
+        return passengerPriceService.getPassengerPriceById(id);
+    }
+
+    @PutMapping("/{id}")
+    public PassengerPrice updatePassengerPrice(@PathVariable("id") Long id,
+                                               @RequestBody PassengerPrice passengerPrice) {
+        return passengerPriceService.updatePassengerPrice(id, passengerPrice);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletePassengerPrice(@PathVariable("id") Long id) {
+
+        passengerPriceService.deletePassengerPrice(id);
+
+        return "Passenger Price deleted successfully.";
+    }
+
+    @GetMapping("/schedule/{tourScheduleId}")
+    public List<PassengerPrice> getPassengerPricesByTourScheduleId(
+            @PathVariable("tourScheduleId") Long tourScheduleId) {
+
+        return passengerPriceService.getPassengerPricesByTourScheduleId(tourScheduleId);
     }
 }

@@ -1,25 +1,23 @@
 package com.etour.etour_backend.service;
 
 import com.etour.etour_backend.entity.TourSchedule;
-import com.etour.etour_backend.repository.TourScheduleRepository;
-import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
-@Service
-public class TourScheduleService {
+public interface TourScheduleService {
 
-    private final TourScheduleRepository repository;
+    TourSchedule saveTourSchedule(TourSchedule tourSchedule);
 
-    public TourScheduleService(TourScheduleRepository repository) {
-        this.repository = repository;
-    }
+    List<TourSchedule> getAllTourSchedules();
 
-    public List<TourSchedule> getAllSchedules() {
-        return repository.findAll();
-    }
+    TourSchedule getTourScheduleById(Long id);
 
-    public TourSchedule saveSchedule(TourSchedule schedule) {
-        return repository.save(schedule);
-    }
+    TourSchedule updateTourSchedule(Long id, TourSchedule tourSchedule);
+
+    void deleteTourSchedule(Long id);
+
+    List<TourSchedule> getSchedulesByTourId(Long tourId);
+
+    List<TourSchedule> getSchedulesByDepartureDate(LocalDate departureDate);
 }

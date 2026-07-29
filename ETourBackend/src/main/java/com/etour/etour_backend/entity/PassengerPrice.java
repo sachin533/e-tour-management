@@ -1,7 +1,9 @@
 package com.etour.etour_backend.entity;
 
 import com.etour.etour_backend.enums.PassengerType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "passenger_prices")
@@ -18,15 +20,30 @@ public class PassengerPrice {
     @Column(nullable = false)
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "schedule_id")
-    private TourSchedule schedule;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tour_schedule_id", nullable = false)
+    @JsonIgnoreProperties({"passengerPrices","bookings"})
+    private TourSchedule tourSchedule;
 
     public PassengerPrice() {
     }
 
+    public PassengerPrice(Long id,
+                          PassengerType passengerType,
+                          Double price,
+                          TourSchedule tourSchedule) {
+        this.id = id;
+        this.passengerType = passengerType;
+        this.price = price;
+        this.tourSchedule = tourSchedule;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public PassengerType getPassengerType() {
@@ -45,11 +62,11 @@ public class PassengerPrice {
         this.price = price;
     }
 
-    public TourSchedule getSchedule() {
-        return schedule;
+    public TourSchedule getTourSchedule() {
+        return tourSchedule;
     }
 
-    public void setSchedule(TourSchedule schedule) {
-        this.schedule = schedule;
+    public void setTourSchedule(TourSchedule tourSchedule) {
+        this.tourSchedule = tourSchedule;
     }
 }
